@@ -46,7 +46,7 @@ docker create \
   -e PGID=<gid> -e PUID=<uid>  \
   -e TZ=<timezone> \
   -p 3467:3467 \
-  stealthgyro/docker-announced:alpha
+  stealthgyro/docker-announced:latest
 ```
 
 ## Parameters
@@ -85,4 +85,4 @@ Access the webui at `<your-ip>:3467`, for more information check out [announced]
 
 ## Version Log
 
-+ **2017-02-28:** initial 
++ **2018-12-10:** initial 
