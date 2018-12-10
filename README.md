@@ -1,4 +1,22 @@
-The way somethings are hardcoded you will want to make sure to have a settings.cfg in your /config volume, which will also include the python scripts for the trackers. Also there seems to be some issues currently in this latest build I've created an alpha branch to that pulls from another source which should work fine.
+Some issues with Pydle and tornado perhaps? tring some different requirements, I saw pydle was updated to grab a specific version of tornado....
+```
+Traceback (most recent call last):
+  File "/config/bot.py", line 6, in <module>
+    import manager
+  File "/config/manager.py", line 6, in <module>
+    import irc
+  File "/config/irc.py", line 4, in <module>
+    import pydle
+  File "/usr/lib/python3.5/site-packages/pydle/__init__.py", line 1, in <module>
+    from . import async, connection, protocol, client, features
+  File "/usr/lib/python3.5/site-packages/pydle/async.py", line 17, in <module>
+    class Future(tornado.concurrent.TracebackFuture):
+AttributeError: module 'tornado.concurrent' has no attribute 'TracebackFuture'
+```
+
+
+
+The way somethings are hardcoded you will want to make sure to have a settings.cfg in your /config volume, which will also include the python scripts for the trackers.
 
 This is still very much in development and still in active testing.
 
@@ -16,18 +34,19 @@ if there are issues with updating, just delete all files except those.
 
 
 [sonarrannounced](https://github.com/l3uddz/sonarrAnnounced) Python script to notify sonarr of tracker announcements from IRC announce channels.
+[Announced](https://github.com/dawtmaytrikx/Announced) Python script to notify sonarr/radarr of tracker announcements from IRC announce channels.
 
 
 ## Usage
 
 ```
 docker create \
-	--name=sonarrannounced \
-	-v <path to data>:/config \
-	-e PGID=<gid> -e PUID=<uid>  \
-	-e TZ=<timezone> \
-	-p 3467:3467 \
-	stealthgyro/docker-sonarrannounced
+  --name=announced \
+  -v <path to data>:/config \
+  -e PGID=<gid> -e PUID=<uid>  \
+  -e TZ=<timezone> \
+  -p 3467:3467 \
+  stealthgyro/docker-announced:alpha
 ```
 
 ## Parameters
@@ -39,12 +58,12 @@ http://192.168.x.x:8080 would show you what's running INSIDE the container on po
 
 
 * `-p 3467` - the port(s)
-* `-v /config` - sonarrannounced Application Data
+* `-v /config` - announced Application Data
 * `-e PGID` for for GroupID - see below for explanation
 * `-e PUID` for for UserID - see below for explanation
 * `-e TZ` for timezone information, eg Europe/London
 
-It is based on alpine-linux with S6 overlay, for shell access whilst the container is running do `docker exec -it sonarrannounced /bin/bash`.
+It is based on alpine-linux with S6 overlay, for shell access whilst the container is running do `docker exec -it announced /bin/bash`.
 
 ### User / Group Identifiers
 
@@ -58,11 +77,11 @@ In this instance `PUID=1001` and `PGID=1001`. To find yours use `id user` as bel
 ```
 
 ## Setting up the application
-Access the webui at `<your-ip>:3467`, for more information check out [sonarrannounced](https://github.com/l3uddz/sonarrAnnounced).
+Access the webui at `<your-ip>:3467`, for more information check out [announced](https://github.com/dawtmaytrikx/Announced).
 
 ## Info
 
-* To monitor the logs of the container in realtime `docker logs -f sonarrannounced`.
+* To monitor the logs of the container in realtime `docker logs -f announced`.
 
 ## Version Log
 
